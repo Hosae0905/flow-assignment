@@ -1,0 +1,29 @@
+.admin-h1-style {
+    font-size: 30px;
+    text-align: center;
+}
+
+.admin-hr-style {
+    border: 1px solid black;
+}
+
+.file-type-checkbox-list {
+    padding: 20px;
+}
+
+.default-type-style {
+    padding-right: 50px;
+}
+
+.custom-type-style {
+    padding-left: 20px;
+    padding-right: 40px;
+}
+
+.input-extension-style {
+    padding-right: 30px;
+}
+
+.extension-tag-input {
+    margin-left: 165px;
+}

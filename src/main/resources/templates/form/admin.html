@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>서버 개발자 과제</title>
+  <link href="../../static/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="../../static/js/checkExtension.js" type="text/javascript" th:src="@{/js/checkExtension.js}"></script>
+  <script></script>
+</head>
+<body>
+<hr class="admin-hr-style">
+<h1 class="admin-h1-style">파일 확장자 차단</h1>
+<hr class="admin-hr-style">
+<span class="description-span-style">파일확장자에 따라 특정 형식의 파일을 첨부하거나 전송하지 못하도록 제한</span>
+<div>
+  <div class="file-type-checkbox-list">
+    <span class="default-type-style">고정 확장자</span>
+    <input type="checkbox" id="myCheckbox" value="bat" name="bat">
+    <label for="myCheckbox">bat</label>
+    <input type="checkbox" name="cmd"/>
+    <label>cmd</label>
+    <input type="checkbox" name="com"/>
+    <label>com</label>
+    <input type="checkbox" name="cpl"/>
+    <label>cpl</label>
+    <input type="checkbox" name="exe"/>
+    <label>exe</label>
+    <input type="checkbox" name="scr"/>
+    <label>scr</label>
+    <input type="checkbox" name="js"/>
+    <label>js</label>
+  </div>
+  <div>
+    <span class="custom-type-style">커스텀 확장자</span>
+    <input class="input-extension-style" type="text" placeholder="확장자 입력">
+    <button>+추가</button>
+
+  </div>
+  <div>
+    <textarea class="extension-tag-input" placeholder="/200" name="tags"></textarea>
+  </div>
+</div>
+</body>
+</html>
