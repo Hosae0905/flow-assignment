@@ -48,4 +48,9 @@ public class FileController {
         log.info("extension = {}", postAddExtensionReq.getExtension());
         return ResponseEntity.ok().body(fileService.addCustomExtension(postAddExtensionReq));
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/custom/extension/list")
+    public ResponseEntity<Object> getCustomExtensionList() {
+        return ResponseEntity.ok().body(fileService.getCustomExtensionList());
+    }
 }
