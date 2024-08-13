@@ -1,4 +1,29 @@
 $(document).ready(function () {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/file/custom/extension/list',
+        success: function (response) {
+            console.log(response)
+            let customExtensionList = $('#customExtensionList')
+            response.forEach(function (item) {
+                const extension = item.extension
+                let extensionTag = $(`
+                    <span>${extension}
+                        <button class="remove-btn">X</button>
+                    </span>
+                `)
+
+                extensionTag.find('.remove-btn').click(function () {
+                    extensionTag.remove()
+                });
+                customExtensionList.append(extensionTag)
+
+            });
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
     $('#addCustomExtension').click(function () {
         let data = $('#extensionInput').val()
 
@@ -19,5 +44,4 @@ $(document).ready(function () {
             }
         })
     })
-
 });
