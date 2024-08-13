@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>서버 개발자 과제</title>
+    <link href="../../static/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../static/js/fileUpload.js" th:src="@{/js/fileUpload.js}" ></script>
+</head>
+<body>
+<hr class="user-hr-style">
+<h1 class="user-h1-style">파일 업로드</h1>
+<hr class="user-hr-style">
+    <div>
+        <form id="fileUploadForm">
+            <input type="file" placeholder="파일을 선택해주세요" id="fileInput" name="file">
+            <button type="button" id="uploadButton">파일 업로드</button>
+        </form>
+    </div>
+</body>
+</html>
