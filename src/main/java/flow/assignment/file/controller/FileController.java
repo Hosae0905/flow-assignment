@@ -30,4 +30,9 @@ public class FileController {
 
         return ResponseEntity.ok().body(fileService.restrictExtension(postExtensionCheckedReq));
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/extension/list")
+    public ResponseEntity<Object> getExtensionList() {
+        return ResponseEntity.ok().body(fileService.getExtensionList());
+    }
 }

@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    $('#myCheckbox').change(function () {
+$(document).on('change', function () {
+    $('input[type="checkbox"][name="extension"]').on('change', function () {
         if (this.checked) {
             let formData = {
                 extension: $(this).val()
@@ -22,3 +22,5 @@ $(document).ready(function () {
         }
     })
 })
+
+
