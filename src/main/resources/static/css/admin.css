@@ -27,3 +27,9 @@
 .extension-tag-input {
     margin-left: 165px;
 }
+
+.remove-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
