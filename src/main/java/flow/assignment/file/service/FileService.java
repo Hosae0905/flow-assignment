@@ -3,11 +3,15 @@ package flow.assignment.file.service;
 import flow.assignment.file.model.entity.Extension;
 import flow.assignment.file.model.entity.UploadFile;
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
+import flow.assignment.file.model.response.GetExtensionListRes;
 import flow.assignment.file.repository.ExtensionRepository;
 import flow.assignment.file.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +30,16 @@ public class FileService {
         extension.setStatus(true);
         extensionRepository.save(extension);
         return true;
+    }
+
+    public Object getExtensionList() {
+        List<Extension> extensions = extensionRepository.findAll();
+        ArrayList<GetExtensionListRes> extensionList = new ArrayList<>();
+
+        for (Extension extension : extensions) {
+            extensionList.add(GetExtensionListRes.buildExtensionList(extension.getExtension(), extension.getStatus()));
+        }
+
+        return extensionList;
     }
 }
