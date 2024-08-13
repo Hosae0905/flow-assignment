@@ -1,10 +1,13 @@
 package flow.assignment.file.service;
 
+import flow.assignment.file.model.entity.CustomExtension;
 import flow.assignment.file.model.entity.Extension;
 import flow.assignment.file.model.entity.UploadFile;
+import flow.assignment.file.model.request.PostAddExtensionReq;
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
 import flow.assignment.file.model.request.PostExtensionUnCheckedReq;
 import flow.assignment.file.model.response.GetExtensionListRes;
+import flow.assignment.file.repository.CustomExtensionRepository;
 import flow.assignment.file.repository.ExtensionRepository;
 import flow.assignment.file.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import java.util.List;
 public class FileService {
     private final UploadFileRepository fileRepository;
     private final ExtensionRepository extensionRepository;
+    private final CustomExtensionRepository customExtensionRepository;
 
     public Object uploadFile(MultipartFile file) {
         String[] fileInfo = file.getOriginalFilename().split("\\.");
@@ -49,5 +53,10 @@ public class FileService {
         }
 
         return extensionList;
+    }
+
+    public Object addCustomExtension(PostAddExtensionReq postAddExtensionReq) {
+        customExtensionRepository.save(CustomExtension.buildCustomExtension(postAddExtensionReq.getExtension()));
+        return true;
     }
 }

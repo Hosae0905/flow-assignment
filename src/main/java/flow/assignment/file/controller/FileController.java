@@ -1,5 +1,6 @@
 package flow.assignment.file.controller;
 
+import flow.assignment.file.model.request.PostAddExtensionReq;
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
 import flow.assignment.file.model.request.PostExtensionUnCheckedReq;
 import flow.assignment.file.service.FileService;
@@ -40,5 +41,11 @@ public class FileController {
     @RequestMapping(method = RequestMethod.GET, value = "/extension/list")
     public ResponseEntity<Object> getExtensionList() {
         return ResponseEntity.ok().body(fileService.getExtensionList());
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/extension/add")
+    public ResponseEntity<Object> addFileExtension(@RequestBody PostAddExtensionReq postAddExtensionReq) {
+        log.info("extension = {}", postAddExtensionReq.getExtension());
+        return ResponseEntity.ok().body(fileService.addCustomExtension(postAddExtensionReq));
     }
 }
