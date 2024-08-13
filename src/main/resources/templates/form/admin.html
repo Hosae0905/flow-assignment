@@ -7,6 +7,7 @@
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="../../static/js/checkExtension.js" type="text/javascript" th:src="@{/js/checkExtension.js}"></script>
   <script src="../../static/js/extensionList.js" type="text/javascript" th:src="@{/js/extensionList.js}"></script>
+  <script src="../../static/js/customExtension.js" type="text/javascript"></script>
 </head>
 <body>
 <hr class="admin-hr-style">
@@ -19,9 +20,8 @@
   </div>
   <div>
     <span class="custom-type-style">커스텀 확장자</span>
-    <input class="input-extension-style" type="text" placeholder="확장자 입력">
-    <button>+추가</button>
-
+    <input class="input-extension-style" type="text" placeholder="확장자 입력" id="extensionInput">
+    <button type="button" id="addCustomExtension">+추가</button>
   </div>
   <div>
     <textarea class="extension-tag-input" placeholder="/200" name="tags"></textarea>
