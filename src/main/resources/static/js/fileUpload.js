@@ -8,7 +8,7 @@ $(document).ready(function () {
         console.log(formData)
 
         $.ajax({
-            url: 'http://localhost:7070/upload/file',
+            url: 'http://localhost:8080/file/upload',
             type: 'POST',
             data: formData,
             enctype: 'multipart/form-data',
