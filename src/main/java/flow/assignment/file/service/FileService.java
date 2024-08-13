@@ -6,6 +6,7 @@ import flow.assignment.file.model.entity.UploadFile;
 import flow.assignment.file.model.request.PostAddExtensionReq;
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
 import flow.assignment.file.model.request.PostExtensionUnCheckedReq;
+import flow.assignment.file.model.response.GetCustomExtensionListRes;
 import flow.assignment.file.model.response.GetExtensionListRes;
 import flow.assignment.file.repository.CustomExtensionRepository;
 import flow.assignment.file.repository.ExtensionRepository;
@@ -58,5 +59,16 @@ public class FileService {
     public Object addCustomExtension(PostAddExtensionReq postAddExtensionReq) {
         customExtensionRepository.save(CustomExtension.buildCustomExtension(postAddExtensionReq.getExtension()));
         return true;
+    }
+
+    public Object getCustomExtensionList() {
+        List<CustomExtension> customExtensions = customExtensionRepository.findAll();
+        ArrayList<GetCustomExtensionListRes> customExtensionList = new ArrayList<>();
+
+        for (CustomExtension customExtension : customExtensions) {
+            customExtensionList.add(GetCustomExtensionListRes.buildCustomExtensionList(customExtension.getExtension()));
+        }
+
+        return customExtensionList;
     }
 }
