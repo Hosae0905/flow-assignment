@@ -3,6 +3,7 @@ package flow.assignment.file.service;
 import flow.assignment.file.model.entity.Extension;
 import flow.assignment.file.model.entity.UploadFile;
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
+import flow.assignment.file.model.request.PostExtensionUnCheckedReq;
 import flow.assignment.file.model.response.GetExtensionListRes;
 import flow.assignment.file.repository.ExtensionRepository;
 import flow.assignment.file.repository.UploadFileRepository;
@@ -28,6 +29,13 @@ public class FileService {
     public Object restrictExtension(PostExtensionCheckedReq postExtensionCheckedReq) {
         Extension extension = extensionRepository.findByExtension(postExtensionCheckedReq.getExtension());
         extension.setStatus(true);
+        extensionRepository.save(extension);
+        return true;
+    }
+
+    public Object openExtension(PostExtensionUnCheckedReq postExtensionUnCheckedReq) {
+        Extension extension = extensionRepository.findByExtension(postExtensionUnCheckedReq.getExtension());
+        extension.setStatus(false);
         extensionRepository.save(extension);
         return true;
     }

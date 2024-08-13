@@ -1,6 +1,7 @@
 package flow.assignment.file.controller;
 
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
+import flow.assignment.file.model.request.PostExtensionUnCheckedReq;
 import flow.assignment.file.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 @Slf4j
 public class FileController {
     private final FileService fileService;
@@ -29,6 +29,12 @@ public class FileController {
         log.info("extension = {}", postExtensionCheckedReq.getExtension());
 
         return ResponseEntity.ok().body(fileService.restrictExtension(postExtensionCheckedReq));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/extension/unchecked")
+    public ResponseEntity<Object> fileExtensionUnChecked(@RequestBody PostExtensionUnCheckedReq postExtensionUnCheckedReq) {
+        log.info("extension = {}", postExtensionUnCheckedReq.getExtension());
+        return ResponseEntity.ok().body(fileService.openExtension(postExtensionUnCheckedReq));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/extension/list")
