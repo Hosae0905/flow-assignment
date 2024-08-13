@@ -1,13 +1,11 @@
 package flow.assignment.file.controller;
 
+import flow.assignment.file.model.request.PostExtensionCheckedReq;
 import flow.assignment.file.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -24,5 +22,17 @@ public class FileController {
         log.info("file = {}", file.getOriginalFilename());
 
         return ResponseEntity.ok().body(fileService.uploadFile(file));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/extension/checked")
+    public ResponseEntity<Object> fileExtensionChecked(@RequestBody PostExtensionCheckedReq postExtensionCheckedReq) {
+        log.info("extension = {}", postExtensionCheckedReq.getExtension());
+
+        return ResponseEntity.ok().body(fileService.restrictExtension(postExtensionCheckedReq));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/extension/list")
+    public ResponseEntity<Object> getExtensionList() {
+        return ResponseEntity.ok().body(fileService.getExtensionList());
     }
 }

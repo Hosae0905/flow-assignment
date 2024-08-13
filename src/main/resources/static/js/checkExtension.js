@@ -1,13 +1,15 @@
-$(document).ready(function () {
-    $('#myCheckbox').change(function () {
+$(document).on('change', function () {
+    $('input[type="checkbox"][name="extension"]').on('change', function () {
         if (this.checked) {
             let formData = {
-                type: $(this).val()
+                extension: $(this).val()
             };
+
+            console.log(formData)
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:7070/upload/check',
+                url: 'http://localhost:8080/file/extension/checked',
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
@@ -20,3 +22,5 @@ $(document).ready(function () {
         }
     })
 })
+
+
