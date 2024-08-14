@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
-@Slf4j
 public class FileController {
     private final FileService fileService;
 
@@ -26,14 +25,11 @@ public class FileController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/extension/checked")
     public ResponseEntity<Object> fileExtensionChecked(@RequestBody PostExtensionCheckedReq postExtensionCheckedReq) {
-        log.info("extension = {}", postExtensionCheckedReq.getExtension());
-
         return ResponseEntity.ok().body(fileService.restrictExtension(postExtensionCheckedReq));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/extension/unchecked")
     public ResponseEntity<Object> fileExtensionUnChecked(@RequestBody PostExtensionUnCheckedReq postExtensionUnCheckedReq) {
-        log.info("extension = {}", postExtensionUnCheckedReq.getExtension());
         return ResponseEntity.ok().body(fileService.openExtension(postExtensionUnCheckedReq));
     }
 
@@ -44,7 +40,6 @@ public class FileController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/extension/add")
     public ResponseEntity<Object> addFileExtension(@RequestBody PostAddExtensionReq postAddExtensionReq) {
-        log.info("extension = {}", postAddExtensionReq.getExtension());
         return ResponseEntity.ok().body(fileService.addCustomExtension(postAddExtensionReq));
     }
 
