@@ -26,16 +26,17 @@ public class FileService {
     private final UploadFileRepository fileRepository;
     private final ExtensionRepository extensionRepository;
     private final CustomExtensionRepository customExtensionRepository;
+    private final FileUploadService fileUploadService;
 
-    public Object uploadFile(MultipartFile file) {
-        String[] fileInfo = file.getOriginalFilename().split("\\.");
+    public BaseResponse<String> uploadFile(MultipartFile file) {
+        String uploadFileInfo = fileUploadService.uploadFile(file);
+        String extension = uploadFileInfo.substring(uploadFileInfo.lastIndexOf('.') + 1);
+        String fileName = uploadFileInfo.substring(uploadFileInfo.lastIndexOf('\\') + 1, uploadFileInfo.lastIndexOf('.'));
+        String path = uploadFileInfo.substring(0, uploadFileInfo.lastIndexOf('\\') + 1);
 
-        if (checkDefaultExtension(fileInfo[1]) && checkCustomExtension(fileInfo[1])) {
-            UploadFile uploadedFile = fileRepository.save(UploadFile.buildUploadFile(fileInfo[0], fileInfo[1]));
-            return BaseResponse.successResponse("UPLOAD_001", true, "파일 업로드 성공", uploadedFile.getFileName());
-        } else {
-            return false;
-        }
+        UploadFile uploadedFile = fileRepository.save(UploadFile.buildUploadFile(fileName, extension, path));
+
+        return BaseResponse.successResponse("UPLOAD_001", true, "파일 업로드 성공", uploadedFile.getFileName());
     }
 
     public Object restrictExtension(PostExtensionCheckedReq postExtensionCheckedReq) {
@@ -85,27 +86,5 @@ public class FileService {
         }
 
         return BaseResponse.successResponse("CUSTOM_002", true, "커스텀 확장자 목록을 정상적으로 불러왔습니다.", customExtensionList);
-    }
-
-    private Boolean checkDefaultExtension(String extension) {
-        Optional<Extension> extensionInfo = extensionRepository.findByExtension(extension);
-        if (extensionInfo.isPresent()) {
-            if (extensionInfo.get().getStatus()) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    private Boolean checkCustomExtension(String extension) {
-        Optional<CustomExtension> customExtension = customExtensionRepository.findByExtension(extension);
-        if (customExtension.isPresent()) {
-            return false;
-        } else {
-            return true;
-        }
     }
 }

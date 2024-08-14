@@ -18,11 +18,13 @@ public class UploadFile {
     private Long fileIdx;
     private String fileName;
     private String extension;
+    private String folderPath;
 
-    public static UploadFile buildUploadFile(String fileName, String fileExtension) {
+    public static UploadFile buildUploadFile(String fileName, String fileExtension, String folderPath) {
         return UploadFile.builder()
                 .fileName(fileName)
                 .extension(fileExtension)
+                .folderPath(folderPath)
                 .build();
     }
 }
