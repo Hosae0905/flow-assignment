@@ -1,6 +1,8 @@
 package flow.assignment.file.service;
 
 import flow.assignment.common.BaseResponse;
+import flow.assignment.common.error.ErrorCode;
+import flow.assignment.common.error.exception.ExtensionException;
 import flow.assignment.file.model.entity.Extension;
 import flow.assignment.file.model.entity.UploadFile;
 import flow.assignment.file.model.request.DeleteCustomExtensionReq;
@@ -45,10 +47,10 @@ public class FileService {
                 Extension extensionInfo = extensionRepository.save(extension.get());
                 return BaseResponse.successResponse("EXTENSION_001", true, "고정 확장자 설정 완료", extensionInfo.getExtension());
             } else {
-                return null;
+                throw new ExtensionException(ErrorCode.NOT_FOUND_EXTENSION, "존재하지 않는 확장자입니다.");
             }
         } else {
-            return null;
+            throw new ExtensionException(ErrorCode.NOT_MATCH_OPTION, "확장자의 옵션이 잘못되었습니다.");
         }
     }
 
@@ -60,10 +62,10 @@ public class FileService {
                 Extension extensionInfo = extensionRepository.save(extension.get());
                 return BaseResponse.successResponse("EXTENSION_002", true, "고정 확장자 설정 해제", extensionInfo.getExtension());
             } else {
-                return null;
+                throw new ExtensionException(ErrorCode.NOT_FOUND_EXTENSION, "존재하지 않는 확장자입니다.");
             }
         } else {
-            return null;
+            throw new ExtensionException(ErrorCode.NOT_MATCH_OPTION, "확장자의 옵션이 잘못되었습니다.");
         }
     }
 
@@ -83,7 +85,7 @@ public class FileService {
                     extensionRepository.save(Extension.buildCustonExtension(postAddExtensionReq.getExtension(), postAddExtensionReq.getOption()));
             return BaseResponse.successResponse("CUSTOM_001", true, "커스텀 확장자 추가 완료", customExtension.getExtension());
         } else {
-            return null;
+            throw new ExtensionException(ErrorCode.NOT_MATCH_OPTION, "확장자의 옵션이 잘못되었습니다.");
         }
     }
 
@@ -106,10 +108,10 @@ public class FileService {
                 return BaseResponse.successResponse("CUSTOM_003", true, "커스텀 확장자를 삭제하였습니다.",
                         deleteCustomExtensionReq.getExtension());
             } else {
-                return false;
+                throw new ExtensionException(ErrorCode.NOT_FOUND_EXTENSION, "존재하지 않는 확장자입니다.");
             }
         } else {
-            return false;
+            throw new ExtensionException(ErrorCode.NOT_MATCH_OPTION, "확장자의 옵션이 잘못되었습니다.");
         }
     }
 }
