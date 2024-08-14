@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,22 +28,35 @@ public class FileService {
 
     public Object uploadFile(MultipartFile file) {
         String[] fileInfo = file.getOriginalFilename().split("\\.");
-        fileRepository.save(UploadFile.buildUploadFile(fileInfo[0], fileInfo[1]));
-        return true;
+
+        if (checkDefaultExtension(fileInfo[1]) && checkCustomExtension(fileInfo[1])) {
+            fileRepository.save(UploadFile.buildUploadFile(fileInfo[0], fileInfo[1]));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Object restrictExtension(PostExtensionCheckedReq postExtensionCheckedReq) {
-        Extension extension = extensionRepository.findByExtension(postExtensionCheckedReq.getExtension());
-        extension.setStatus(true);
-        extensionRepository.save(extension);
-        return true;
+        Optional<Extension> extension = extensionRepository.findByExtension(postExtensionCheckedReq.getExtension());
+        if (extension.isPresent()) {
+            extension.get().setStatus(true);
+            extensionRepository.save(extension.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Object openExtension(PostExtensionUnCheckedReq postExtensionUnCheckedReq) {
-        Extension extension = extensionRepository.findByExtension(postExtensionUnCheckedReq.getExtension());
-        extension.setStatus(false);
-        extensionRepository.save(extension);
-        return true;
+        Optional<Extension> extension = extensionRepository.findByExtension(postExtensionUnCheckedReq.getExtension());
+        if (extension.isPresent()) {
+            extension.get().setStatus(false);
+            extensionRepository.save(extension.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Object getExtensionList() {
@@ -70,5 +84,27 @@ public class FileService {
         }
 
         return customExtensionList;
+    }
+
+    private Boolean checkDefaultExtension(String extension) {
+        Optional<Extension> extensionInfo = extensionRepository.findByExtension(extension);
+        if (extensionInfo.isPresent()) {
+            if (extensionInfo.get().getStatus()) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private Boolean checkCustomExtension(String extension) {
+        Optional<CustomExtension> customExtension = customExtensionRepository.findByExtension(extension);
+        if (customExtension.isPresent()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
