@@ -37,8 +37,8 @@ public class FileController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/extension/list")
-    public ResponseEntity<Object> getExtensionList() {
-        return ResponseEntity.ok().body(fileService.getExtensionList());
+    public ResponseEntity<Object> getExtensionList(String option) {
+        return ResponseEntity.ok().body(fileService.getDefaultExtensionList(option));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/extension/add")
@@ -48,7 +48,7 @@ public class FileController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/custom/extension/list")
-    public ResponseEntity<Object> getCustomExtensionList() {
-        return ResponseEntity.ok().body(fileService.getCustomExtensionList());
+    public ResponseEntity<Object> getCustomExtensionList(String option) {
+        return ResponseEntity.ok().body(fileService.getCustomExtensionList(option));
     }
 }

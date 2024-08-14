@@ -18,4 +18,13 @@ public class Extension {
     private Long extensionIdx;
     private String extension;
     private Boolean status;
+    private String option;
+
+    public static Extension buildCustonExtension(String extension, String option) {
+        return Extension.builder()
+                .extension(extension)
+                .status(true)
+                .option(option)
+                .build();
+    }
 }
