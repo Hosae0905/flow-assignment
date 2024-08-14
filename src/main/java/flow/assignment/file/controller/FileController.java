@@ -1,5 +1,6 @@
 package flow.assignment.file.controller;
 
+import flow.assignment.common.BaseResponse;
 import flow.assignment.file.model.request.PostAddExtensionReq;
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
 import flow.assignment.file.model.request.PostExtensionUnCheckedReq;
@@ -18,10 +19,7 @@ public class FileController {
     private final FileService fileService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
-    public ResponseEntity<Object> fileUpload(MultipartFile file) {
-
-        log.info("file = {}", file.getOriginalFilename());
-
+    public ResponseEntity<BaseResponse<String>> fileUpload(MultipartFile file) {
         return ResponseEntity.ok().body(fileService.uploadFile(file));
     }
 
