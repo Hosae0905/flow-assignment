@@ -15,3 +15,7 @@ spring:
         format_sql: true
     show-sql: true
     defer-datasource-initialization: true
+
+project:
+  upload:
+    path: ${FOLDER_PATH}
