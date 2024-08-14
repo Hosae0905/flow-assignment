@@ -1,9 +1,6 @@
 package flow.assignment.file.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -16,8 +13,14 @@ public class Extension {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long extensionIdx;
+
+    @Column(name = "extension")
     private String extension;
+
+    @Column(name = "status")
     private Boolean status;
+
+    @Column(name = "extension_option")
     private String option;
 
     public static Extension buildCustonExtension(String extension, String option) {

@@ -1,4 +1,4 @@
-INSERT INTO extension (extension_idx, extension, status, option)
+INSERT INTO extension (extension_idx, extension, status, extension_option)
 VALUES
     (1, 'bat', false, 'default'),
     (2, 'cmd', false, 'default'),

@@ -3,6 +3,7 @@ package flow.assignment.file.service;
 import flow.assignment.common.BaseResponse;
 import flow.assignment.file.model.entity.Extension;
 import flow.assignment.file.model.entity.UploadFile;
+import flow.assignment.file.model.request.DeleteCustomExtensionReq;
 import flow.assignment.file.model.request.PostAddExtensionReq;
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
 import flow.assignment.file.model.request.PostExtensionUnCheckedReq;
@@ -95,5 +96,20 @@ public class FileService {
         }
 
         return BaseResponse.successResponse("CUSTOM_002", true, "커스텀 확장자 목록을 정상적으로 불러왔습니다.", customExtensionList);
+    }
+
+    public Object removeCustomExtension(DeleteCustomExtensionReq deleteCustomExtensionReq) {
+        if (deleteCustomExtensionReq.getOption().equals("custom")) {
+            Optional<Extension> extension = extensionRepository.findByExtension(deleteCustomExtensionReq.getExtension());
+            if (extension.isPresent()) {
+                extensionRepository.deleteById(extension.get().getExtensionIdx());
+                return BaseResponse.successResponse("CUSTOM_003", true, "커스텀 확장자를 삭제하였습니다.",
+                        deleteCustomExtensionReq.getExtension());
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }
