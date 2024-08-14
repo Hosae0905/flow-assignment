@@ -5,7 +5,7 @@ $(document).ready(function () {
         success: function (response) {
             console.log(response)
             let extensionList = $('#extensionList')
-            response.forEach(function (item, index) {
+            response.result.forEach(function (item, index) {
                 const extension = item.extension
                 const isChecked = item.status ? 'checked' : ''
                 const checkboxId = 'ext' + index

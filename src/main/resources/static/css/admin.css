@@ -33,3 +33,9 @@
     border: none;
     cursor: pointer;
 }
+
+.custom-extension-item {
+    display: inline-block;
+    margin-bottom: 5px;
+    align-items: center;
+}
