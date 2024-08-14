@@ -5,8 +5,6 @@ $(document).ready(function () {
         let formData = new FormData()
         formData.append('file', file.files[0])
 
-        console.log(formData)
-
         $.ajax({
             url: 'http://localhost:8080/file/upload',
             type: 'POST',
@@ -15,7 +13,9 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(response)
+                if (response === false) {
+                    alert('현재 확장자의 파일은 업로드할 수 없습니다. 다른 파일로 시도해주세요')
+                }
             },
             error: function (error) {
                 console.log(error)
