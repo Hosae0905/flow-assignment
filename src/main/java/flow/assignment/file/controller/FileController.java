@@ -1,6 +1,7 @@
 package flow.assignment.file.controller;
 
 import flow.assignment.common.BaseResponse;
+import flow.assignment.file.model.request.DeleteCustomExtensionReq;
 import flow.assignment.file.model.request.PostAddExtensionReq;
 import flow.assignment.file.model.request.PostExtensionCheckedReq;
 import flow.assignment.file.model.request.PostExtensionUnCheckedReq;
@@ -45,6 +46,11 @@ public class FileController {
     public ResponseEntity<Object> addFileExtension(@RequestBody PostAddExtensionReq postAddExtensionReq) {
         log.info("extension = {}", postAddExtensionReq.getExtension());
         return ResponseEntity.ok().body(fileService.addCustomExtension(postAddExtensionReq));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/custom/extension/remove")
+    public ResponseEntity<Object> removeCustomExtension(@RequestBody DeleteCustomExtensionReq deleteCustomExtensionReq) {
+        return ResponseEntity.ok().body(fileService.removeCustomExtension(deleteCustomExtensionReq));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/custom/extension/list")
