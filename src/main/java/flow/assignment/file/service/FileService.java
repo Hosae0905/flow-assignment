@@ -1,5 +1,6 @@
 package flow.assignment.file.service;
 
+import flow.assignment.common.BaseResponse;
 import flow.assignment.file.model.entity.CustomExtension;
 import flow.assignment.file.model.entity.Extension;
 import flow.assignment.file.model.entity.UploadFile;
@@ -30,8 +31,8 @@ public class FileService {
         String[] fileInfo = file.getOriginalFilename().split("\\.");
 
         if (checkDefaultExtension(fileInfo[1]) && checkCustomExtension(fileInfo[1])) {
-            fileRepository.save(UploadFile.buildUploadFile(fileInfo[0], fileInfo[1]));
-            return true;
+            UploadFile uploadedFile = fileRepository.save(UploadFile.buildUploadFile(fileInfo[0], fileInfo[1]));
+            return BaseResponse.successResponse("UPLOAD_001", true, "파일 업로드 성공", uploadedFile.getFileName());
         } else {
             return false;
         }
@@ -41,8 +42,8 @@ public class FileService {
         Optional<Extension> extension = extensionRepository.findByExtension(postExtensionCheckedReq.getExtension());
         if (extension.isPresent()) {
             extension.get().setStatus(true);
-            extensionRepository.save(extension.get());
-            return true;
+            Extension extensionInfo = extensionRepository.save(extension.get());
+            return BaseResponse.successResponse("EXTENSION_001", true, "고정 확장자 설정 완료", extensionInfo.getExtension());
         } else {
             return false;
         }
@@ -52,8 +53,8 @@ public class FileService {
         Optional<Extension> extension = extensionRepository.findByExtension(postExtensionUnCheckedReq.getExtension());
         if (extension.isPresent()) {
             extension.get().setStatus(false);
-            extensionRepository.save(extension.get());
-            return true;
+            Extension extensionInfo = extensionRepository.save(extension.get());
+            return BaseResponse.successResponse("EXTENSION_002", true, "고정 확장자 설정 해제", extensionInfo.getExtension());
         } else {
             return false;
         }
@@ -66,13 +67,13 @@ public class FileService {
         for (Extension extension : extensions) {
             extensionList.add(GetExtensionListRes.buildExtensionList(extension.getExtension(), extension.getStatus()));
         }
-
-        return extensionList;
+        return BaseResponse.successResponse("EXTENSION_003", true, "고정 확장자 목록을 정상적으로 불러왔습니다.", extensionList);
     }
 
     public Object addCustomExtension(PostAddExtensionReq postAddExtensionReq) {
-        customExtensionRepository.save(CustomExtension.buildCustomExtension(postAddExtensionReq.getExtension()));
-        return true;
+        CustomExtension customExtensionInfo =
+                customExtensionRepository.save(CustomExtension.buildCustomExtension(postAddExtensionReq.getExtension()));
+        return BaseResponse.successResponse("CUSTOM_001", true, "커스텀 확장자 추가 완료", customExtensionInfo.getExtension());
     }
 
     public Object getCustomExtensionList() {
@@ -83,7 +84,7 @@ public class FileService {
             customExtensionList.add(GetCustomExtensionListRes.buildCustomExtensionList(customExtension.getExtension()));
         }
 
-        return customExtensionList;
+        return BaseResponse.successResponse("CUSTOM_002", true, "커스텀 확장자 목록을 정상적으로 불러왔습니다.", customExtensionList);
     }
 
     private Boolean checkDefaultExtension(String extension) {
