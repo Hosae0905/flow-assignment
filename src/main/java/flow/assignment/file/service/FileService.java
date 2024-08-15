@@ -80,8 +80,12 @@ public class FileService {
         }
     }
 
+    @Transactional
     public BaseResponse<String> addCustomExtension(PostAddExtensionReq postAddExtensionReq) {
         if (postAddExtensionReq.getOption().equals("custom")) {
+            extensionRepository.findByExtension(postAddExtensionReq.getExtension()).ifPresent(customExtension -> {
+                throw new ExtensionException(ErrorCode.CONFLICT_EXTENSION, "중복된" + customExtension.getExtension() + "은 차단할 수 없습니다.");
+            });
             Extension customExtension =
                     extensionRepository.save(Extension.buildCustonExtension(postAddExtensionReq.getExtension(), postAddExtensionReq.getOption()));
             return BaseResponse.successResponse("CUSTOM_001", true, "커스텀 확장자 추가 완료", customExtension.getExtension());
