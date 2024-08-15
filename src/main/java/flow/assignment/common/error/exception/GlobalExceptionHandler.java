@@ -22,4 +22,11 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
         return new ResponseEntity<>(errorResponse, errorCode.getStatus());
     }
+
+    @ExceptionHandler(InterceptorException.class)
+    public ResponseEntity<ErrorResponse> handleInterceptorException(InterceptorException e) {
+        ErrorCode errorCode = e.getErrorCode();
+        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
+        return new ResponseEntity<>(errorResponse, errorCode.getStatus());
+    }
 }
