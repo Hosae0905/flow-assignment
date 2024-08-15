@@ -1,9 +1,9 @@
 $(document).ready(function () {
+    let option = 'default'
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/file/extension/list',
+        url: `http://localhost:8080/file/extension/list?option=${option}`,
         success: function (response) {
-            console.log(response)
             let extensionList = $('#extensionList')
             response.result.forEach(function (item, index) {
                 const extension = item.extension
@@ -17,7 +17,11 @@ $(document).ready(function () {
             });
         },
         error: function (error) {
-            console.log(error)
+            if (error.responseJSON.code === 'EXTENSION_ERROR_002') {
+                alert(error.responseJSON.message)
+            } else if (error.responseJSON.code === 'SERVER_ERROR_001') {
+                alert(error.responseJSON.message)
+            }
         }
     })
 })
