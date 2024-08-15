@@ -2,13 +2,14 @@ package flow.assignment.interceptor;
 
 import flow.assignment.common.FileSignature;
 import flow.assignment.common.MimeType;
+import flow.assignment.common.error.ErrorCode;
+import flow.assignment.common.error.exception.InterceptorException;
 import flow.assignment.file.model.entity.Extension;
 import flow.assignment.file.repository.ExtensionRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -17,7 +18,6 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Optional;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ExtensionHandlerInterceptor implements HandlerInterceptor {
@@ -27,46 +27,62 @@ public class ExtensionHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Collection<Part> result = request.getParts();
-        for (Part part : result) {
-            String contentType = part.getContentType();
-            String fileName = part.getSubmittedFileName();
-            if (fileSignatureFilter(fileName, part.getInputStream())) {
+        try {
+            for (Part part : result) {
+                String contentType = part.getContentType();
                 String extension = mimeTypeFilter(contentType);
-                return extensionFilter(extension);
-            } else {
-                return false;
+                String fileSignature = convertByteToSignature(part.getInputStream());
+                if (fileSignatureFilter(extension, fileSignature)) {
+                    return extensionFilter(extension);
+                } else {
+                    return false;
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+        return false;
     }
 
     private Boolean extensionFilter(String extension) {
         Optional<Extension> extensionInfo = extensionRepository.findByExtension(extension);
         if (extensionInfo.isPresent()) {
-            if (extensionInfo.get().getStatus()) {
-                return false;
-            } else {
+            Extension getExtension = extensionInfo.get();
+            if (!getExtension.getStatus()) {
                 return true;
+            } else {
+                throw new InterceptorException(ErrorCode.INVALID_EXTENSION, "해당 파일은 업로드할 수 없습니다.");
             }
         } else {
-            return false;
+            return true;
         }
     }
 
     private String mimeTypeFilter(String mimeType) {
-        return MimeType.isValidMimeType(mimeType);
+        String validMimeType = MimeType.isValidMimeType(mimeType);
+        if (validMimeType == null) {
+            throw new InterceptorException(ErrorCode.NOT_FOUND_MIMETYPE, "파일의 형식이 올바르지 않습니다.");
+        } else {
+            return validMimeType;
+        }
     }
 
-    private Boolean fileSignatureFilter(String fileName, InputStream inputStream) throws IOException {
-        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+    private Boolean fileSignatureFilter(String extension, String fileSignature) {
+        Boolean signature = FileSignature.isEqualsSignature(extension, fileSignature);
+        if (signature == null || !signature) {
+            throw new InterceptorException(ErrorCode.INVALID_FILE_SIGNATURE, "유효하지 않은 파일입니다.");
+        } else {
+            return true;
+        }
+    }
 
-        byte[] bytes = inputStream.readAllBytes();
+    private String convertByteToSignature(InputStream inputStream) throws IOException {
+        byte[] bytes = inputStream.readNBytes(2);
         String signature = "";
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < bytes.length; i++) {
             signature += String.format("%02x", bytes[i]);
         }
 
-        return FileSignature.isEqualsSignature(extension, signature);
+        return signature;
     }
 }
