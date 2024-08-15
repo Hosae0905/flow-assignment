@@ -67,13 +67,17 @@ public class FileService {
     }
 
     public BaseResponse<ArrayList<GetExtensionListRes>> getDefaultExtensionList(String option) {
-        List<Extension> extensions = extensionRepository.findAllByOption(option);
-        ArrayList<GetExtensionListRes> extensionList = new ArrayList<>();
+        if (option.equals("default")) {
+            List<Extension> extensions = extensionRepository.findAllByOption(option);
+            ArrayList<GetExtensionListRes> extensionList = new ArrayList<>();
 
-        for (Extension extension : extensions) {
-            extensionList.add(GetExtensionListRes.buildExtensionList(extension.getExtension(), extension.getStatus()));
+            for (Extension extension : extensions) {
+                extensionList.add(GetExtensionListRes.buildExtensionList(extension.getExtension(), extension.getStatus()));
+            }
+            return BaseResponse.successResponse("EXTENSION_003", true, "고정 확장자 목록을 정상적으로 불러왔습니다.", extensionList);
+        } else {
+            throw new ExtensionException(ErrorCode.NOT_MATCH_OPTION, "확장자의 옵션이 잘못되었습니다.");
         }
-        return BaseResponse.successResponse("EXTENSION_003", true, "고정 확장자 목록을 정상적으로 불러왔습니다.", extensionList);
     }
 
     public BaseResponse<String> addCustomExtension(PostAddExtensionReq postAddExtensionReq) {
@@ -87,14 +91,18 @@ public class FileService {
     }
 
     public BaseResponse<ArrayList<GetCustomExtensionListRes>> getCustomExtensionList(String option) {
-        List<Extension> customExtensions = extensionRepository.findAllByOption(option);
-        ArrayList<GetCustomExtensionListRes> customExtensionList = new ArrayList<>();
+        if (option.equals("custom")) {
+            List<Extension> customExtensions = extensionRepository.findAllByOption(option);
+            ArrayList<GetCustomExtensionListRes> customExtensionList = new ArrayList<>();
 
-        for (Extension customExtension : customExtensions) {
-            customExtensionList.add(GetCustomExtensionListRes.buildCustomExtensionList(customExtension.getExtension()));
+            for (Extension customExtension : customExtensions) {
+                customExtensionList.add(GetCustomExtensionListRes.buildCustomExtensionList(customExtension.getExtension()));
+            }
+
+            return BaseResponse.successResponse("CUSTOM_002", true, "커스텀 확장자 목록을 정상적으로 불러왔습니다.", customExtensionList);
+        } else {
+            throw new ExtensionException(ErrorCode.NOT_MATCH_OPTION, "확장자의 옵션이 잘못되었습니다.");
         }
-
-        return BaseResponse.successResponse("CUSTOM_002", true, "커스텀 확장자 목록을 정상적으로 불러왔습니다.", customExtensionList);
     }
 
     @Transactional
