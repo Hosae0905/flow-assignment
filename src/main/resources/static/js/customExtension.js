@@ -1,6 +1,6 @@
+const maxCustomExtensionSize = 200
 function loadCustomExtensionList() {
     let option = 'custom'
-    const maxCustomExtensionSize = 200
     $.ajax({
         type: 'GET',
         url: `http://localhost:8080/file/custom/extension/list?option=${option}`,
@@ -45,8 +45,27 @@ function loadCustomExtensionList() {
 $(function getCustomExtensionList () {
     loadCustomExtensionList()
     let option = 'custom'
+    let currentCount = 0;
     $('#addCustomExtension').click(function addCustomExtension () {
         let data = $('#extensionInput').val()
+        $.ajax({
+            type: 'GET',
+            url: `http://localhost:8080/file/custom/extension/list?option=${option}`,
+            success: function (response) {
+                currentCount = response.result.length
+            },
+            error: function (error) {
+                if (error.responseJSON.code === 'EXTENSION_ERROR_002') {
+                    alert(error.responseJSON.message)
+                } else if (error.code === 'SERVER_ERROR_001') {
+                    alert(error.responseJSON.message)
+                }
+            },
+        })
+        if (currentCount >= maxCustomExtensionSize) {
+            alert('커스텀 확장자는 최대 200개까지만 가능합니다.')
+            return;
+        }
         if (data.length <= 20) {
             let formData = {
                 extension : data,
@@ -73,9 +92,9 @@ $(function getCustomExtensionList () {
                         alert(error.responseJSON.message)
                     }
                 },
-            })
+            });
         } else {
-            alert('커스텀 확장자의 길이는 최대 20자까지 가능합니다.')
+            alert('커스텀 확장자의 길이는 최대 20자까지 가능합니다.');
         }
     })
 });
