@@ -1,37 +1,47 @@
-$(document).ready(function () {
+$(function getCustomExtensionList () {
+    let option = 'custom'
+    const maxCustomExtensionSize = 200
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/file/custom/extension/list',
+        url: `http://localhost:8080/file/custom/extension/list?option=${option}`,
         success: function (response) {
-            console.log(response)
-            let customExtensionList = $('#customExtensionList')
-            response.result.forEach(function (item, index) {
-                const customExtension = item.extension
-                const customExtensionIdx = index
+            if (response.code === 'CUSTOM_002') {
+                let customExtensionList = $('#customExtensionList');
+                let totalCustomExtension = $('#totalCustomExtension')
 
-                let extensionTag = $(`
+                response.result.forEach(function (item, index) {
+                    const customExtension = item.extension
+                    const customExtensionIdx = index
+
+                    let extensionTag = $(`
                     <div class="custom-extension-item">
                         <label for="${customExtensionIdx}" id="customExtension">${customExtension}</label>
                         <button id="${customExtensionIdx}" class="remove-btn" name="removeExtensionBtn" aria-label="test">X</button>
                     </div>
                 `)
 
-                extensionTag.find('.remove-btn').click(function () {
-                    extensionTag.remove()
+                    extensionTag.find('.remove-btn').click(function () {
+                        extensionTag.remove()
+                    });
+                    customExtensionList.append(extensionTag)
                 });
-                customExtensionList.append(extensionTag)
-
-            });
+                totalCustomExtension.append(`${response.result.length}/${maxCustomExtensionSize}`)
+            }
         },
         error: function (error) {
-            console.log(error)
+            if (error.responseJSON.code === 'EXTENSION_ERROR_002') {
+                alert(error.responseJSON.message)
+            } else if (error.code === 'SERVER_ERROR_001') {
+                alert(error.responseJSON.message)
+            }
         }
     })
-    $('#addCustomExtension').click(function () {
+    $('#addCustomExtension').click(function addCustomExtension () {
         let data = $('#extensionInput').val()
         if (data.length <= 20) {
             let formData = {
-                extension : data
+                extension : data,
+                option: option
             };
             $.ajax({
                 type: 'POST',
@@ -39,10 +49,16 @@ $(document).ready(function () {
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
-                    console.log(response)
+                    if (response.code === 'CUSTOM_001') {
+                        alert(response.message)
+                    }
                 },
                 error: function (error) {
-                    console.log(error)
+                    if (error.responseJSON.code === 'EXTENSION_ERROR_002') {
+                        alert(error.responseJSON.message)
+                    } else if (error.code === 'SERVER_ERROR_001') {
+                        alert(error.responseJSON.message)
+                    }
                 }
             })
         } else {
@@ -51,9 +67,11 @@ $(document).ready(function () {
     })
 });
 
-$(document).on('click', 'button[name="removeExtensionBtn"]', function () {
+$(document).on('click', 'button[name="removeExtensionBtn"]', function delCustomExtension () {
+    let option = 'custom'
     let formData = {
-        customExtension: $(this).siblings('label').text().trim()
+        customExtension: $(this).siblings('label').text().trim(),
+        option: option
     }
 
     $.ajax({
@@ -62,10 +80,16 @@ $(document).on('click', 'button[name="removeExtensionBtn"]', function () {
         data: JSON.stringify(formData),
         contentType: 'application/json',
         success: function (response) {
-            console.log(response)
+            if (response.code === 'CUSTOM_003') {
+                alert(response.message)
+            }
         },
         error: function (error) {
-            console.log(error)
+            if (error.responseJSON.code === 'EXTENSION_ERROR_001' || error.responseJSON.code === 'EXTENSION_ERROR_002') {
+                alert(error.responseJSON.message)
+            } else if (error.code === 'SERVER_ERROR_001') {
+                alert(error.responseJSON.message)
+            }
         },
     })
 });
