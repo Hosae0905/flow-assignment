@@ -1,4 +1,4 @@
-$(function getCustomExtensionList () {
+function loadCustomExtensionList() {
     let option = 'custom'
     const maxCustomExtensionSize = 200
     $.ajax({
@@ -6,8 +6,11 @@ $(function getCustomExtensionList () {
         url: `http://localhost:8080/file/custom/extension/list?option=${option}`,
         success: function (response) {
             if (response.code === 'CUSTOM_002') {
-                let customExtensionList = $('#customExtensionList');
+                let customExtensionList = $('#customExtensionList')
                 let totalCustomExtension = $('#totalCustomExtension')
+                let currentCount = response.result.length;
+                customExtensionList.empty()
+                totalCustomExtension.empty()
 
                 response.result.forEach(function (item, index) {
                     const customExtension = item.extension
@@ -25,7 +28,8 @@ $(function getCustomExtensionList () {
                     });
                     customExtensionList.append(extensionTag)
                 });
-                totalCustomExtension.append(`${response.result.length}/${maxCustomExtensionSize}`)
+
+                totalCustomExtension.append(`${currentCount}/${maxCustomExtensionSize}`)
             }
         },
         error: function (error) {
@@ -36,6 +40,11 @@ $(function getCustomExtensionList () {
             }
         }
     })
+}
+
+$(function getCustomExtensionList () {
+    loadCustomExtensionList()
+    let option = 'custom'
     $('#addCustomExtension').click(function addCustomExtension () {
         let data = $('#extensionInput').val()
         if (data.length <= 20) {
@@ -52,6 +61,7 @@ $(function getCustomExtensionList () {
                     if (response.code === 'CUSTOM_001') {
                         alert(response.message)
                         $('#extensionInput').val('')
+                        loadCustomExtensionList()
                     }
                 },
                 error: function (error) {
@@ -62,7 +72,7 @@ $(function getCustomExtensionList () {
                     } else if (error.code === 'SERVER_ERROR_001') {
                         alert(error.responseJSON.message)
                     }
-                }
+                },
             })
         } else {
             alert('커스텀 확장자의 길이는 최대 20자까지 가능합니다.')
@@ -85,6 +95,7 @@ $(document).on('click', 'button[name="removeExtensionBtn"]', function delCustomE
         success: function (response) {
             if (response.code === 'CUSTOM_003') {
                 alert(response.message)
+                loadCustomExtensionList()
             }
         },
         error: function (error) {
