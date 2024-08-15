@@ -29,11 +29,12 @@ public enum MimeType {
     TEXT_HTML("text/html", "html"),
     IMAGE_ICON("image/vnd.microsoft.icon", "ico"),
     TEXT_CALENDAR("text/calendar", "ics"),
-    APPLICATION_JAR("application/java-archive", "jar")
+    APPLICATION_JAR("application/java-archive", "jar"),
+    TEXT_JAVASCRIPT("text/javascript", "js"),
     ;
 
-    private String mimeType;
-    private String extension;
+    private final String mimeType;
+    private final String extension;
 
     public static String isValidMimeType(String mimeType) {
         for (MimeType type : MimeType.values()) {
