@@ -51,11 +51,14 @@ $(function getCustomExtensionList () {
                 success: function (response) {
                     if (response.code === 'CUSTOM_001') {
                         alert(response.message)
+                        $('#extensionInput').val('')
                     }
                 },
                 error: function (error) {
-                    if (error.responseJSON.code === 'EXTENSION_ERROR_002') {
+                    if (error.responseJSON.code === 'EXTENSION_ERROR_002' || error.responseJSON.code === 'EXTENSION_ERROR_003') {
                         alert(error.responseJSON.message)
+                        $('#extensionInput').val('')
+
                     } else if (error.code === 'SERVER_ERROR_001') {
                         alert(error.responseJSON.message)
                     }
@@ -70,7 +73,7 @@ $(function getCustomExtensionList () {
 $(document).on('click', 'button[name="removeExtensionBtn"]', function delCustomExtension () {
     let option = 'custom'
     let formData = {
-        customExtension: $(this).siblings('label').text().trim(),
+        extension: $(this).siblings('label').text().trim(),
         option: option
     }
 
