@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(extensionHandlerInterceptor);
+        registry.addInterceptor(extensionHandlerInterceptor).addPathPatterns("/file/upload");
     }
 
     @Override
