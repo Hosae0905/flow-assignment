@@ -1,7 +1,8 @@
 $(document).on('change', function () {
     $('input[type="checkbox"][name="extension"]').on('change', function () {
         let formData = {
-            extension: $(this).val()
+            extension: $(this).val(),
+            option: 'default'
         };
         if (this.checked) {
             $.ajax({
@@ -10,24 +11,35 @@ $(document).on('change', function () {
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
-                    console.log(response)
+                    if (response.code === 'EXTENSION_001') {
+                        alert(response.message);
+                    }
                 },
                 error: function (error) {
-                    console.log(error)
+                    if (error.responseJSON.code === 'EXTENSION_ERROR_001' || error.responseJSON.code === 'EXTENSION_ERROR_002') {
+                        alert(error.responseJSON.message)
+                    } else if (error.code === 'SERVER_ERROR_001') {
+                        alert(error.responseJSON.message)
+                    }
                 }
             })
         } else {
-            console.log(formData)
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost:8080/file/extension/unchecked',
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
-                    console.log(response)
+                    if (response.code === 'EXTENSION_002') {
+                        alert(response.message)
+                    }
                 },
                 error: function (error) {
-                    console.log(error)
+                    if (error.responseJSON.code === 'EXTENSION_ERROR_001' || error.responseJSON.code === 'EXTENSION_ERROR_002') {
+                        alert(error.responseJSON.message)
+                    } else if (error.code === 'SERVER_ERROR_001') {
+                        alert(error.responseJSON.message)
+                    }
                 }
             })
         }
