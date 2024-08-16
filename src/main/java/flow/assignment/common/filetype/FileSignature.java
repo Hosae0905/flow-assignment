@@ -1,7 +1,12 @@
-package flow.assignment.common;
+package flow.assignment.common.filetype;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -22,23 +27,20 @@ public enum FileSignature {
     ZIP_SIGNATURE("zip", "054B"),
     DOCX_SIGNATURE("docx", "504B"),
     TAR_SIGNATURE("tar", "7573"),
-    JS_SIGNATURE("js", "6c65"),
     ;
 
     private final String extension;
     private final String fileSignature;
+    private static final Map<String, FileSignature> SIGNATURE_MAP =
+            Arrays.stream(FileSignature.values())
+                    .collect(Collectors.toMap(FileSignature::getExtension, Function.identity()));
 
     public static Boolean isEqualsSignature(String extension, String signature) {
-        for (FileSignature fileSignature : FileSignature.values()) {
-            if (fileSignature.getExtension().equals(extension)) {
-                if (fileSignature.getFileSignature().equals(signature)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+        String fileSignature = SIGNATURE_MAP.get(extension).getFileSignature();
+        if (fileSignature.equals(signature)) {
+            return true;
+        } else {
+            return false;
         }
-
-        return null;
     }
 }

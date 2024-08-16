@@ -1,7 +1,8 @@
 package flow.assignment.interceptor;
 
-import flow.assignment.common.FileSignature;
-import flow.assignment.common.MimeType;
+import flow.assignment.common.filetype.FileSignature;
+import flow.assignment.common.filetype.GeneralFile;
+import flow.assignment.common.filetype.MimeType;
 import flow.assignment.common.error.ErrorCode;
 import flow.assignment.common.error.exception.InterceptorException;
 import flow.assignment.file.model.entity.Extension;
@@ -73,7 +74,7 @@ public class ExtensionHandlerInterceptor implements HandlerInterceptor {
 
     private Boolean fileSignatureFilter(String extension, String fileSignature) {
         Boolean signature = FileSignature.isEqualsSignature(extension, fileSignature);
-        if (signature == null || !signature) {
+        if (!signature) {
             throw new InterceptorException(ErrorCode.INVALID_FILE_SIGNATURE, "유효하지 않은 파일입니다.");
         } else {
             return true;
