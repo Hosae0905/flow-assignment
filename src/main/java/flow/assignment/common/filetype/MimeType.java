@@ -1,7 +1,12 @@
-package flow.assignment.common;
+package flow.assignment.common.filetype;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
@@ -36,12 +41,16 @@ public enum MimeType {
     private final String mimeType;
     private final String extension;
 
+    public static final Map<String, MimeType> MIME_TYPE_MAP =
+            Arrays.stream(MimeType.values())
+                    .collect(Collectors.toMap(MimeType::getExtension, Function.identity()));
+
     public static String isValidMimeType(String mimeType) {
-        for (MimeType type : MimeType.values()) {
-            if (type.getMimeType().equals(mimeType)) {
-                return type.getExtension();
-            }
+        MimeType resultMimeType = MIME_TYPE_MAP.get(mimeType);
+        if (resultMimeType != null) {
+            return resultMimeType.getExtension();
+        } else {
+            return null;
         }
-        return null;
     }
 }
