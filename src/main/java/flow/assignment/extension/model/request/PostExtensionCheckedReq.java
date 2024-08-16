@@ -1,9 +1,9 @@
-package flow.assignment.file.model.request;
+package flow.assignment.extension.model.request;
 
 import lombok.Getter;
 
 @Getter
-public class PostExtensionUnCheckedReq {
+public class PostExtensionCheckedReq {
     private String extension;
     private String option;
 }

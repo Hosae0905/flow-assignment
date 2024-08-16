@@ -1,6 +1,6 @@
-package flow.assignment.file.repository;
+package flow.assignment.extension.repository;
 
-import flow.assignment.file.model.entity.Extension;
+import flow.assignment.extension.model.entity.Extension;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

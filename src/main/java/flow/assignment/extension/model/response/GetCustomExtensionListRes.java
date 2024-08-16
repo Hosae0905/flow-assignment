@@ -1,4 +1,4 @@
-package flow.assignment.file.model.response;
+package flow.assignment.extension.model.response;
 
 import lombok.Builder;
 import lombok.Getter;
