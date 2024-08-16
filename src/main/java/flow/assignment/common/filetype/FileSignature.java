@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * 파일의 시그니처 정보를 담을 Enum 클래스
+ */
 @Getter
 @AllArgsConstructor
 public enum FileSignature {
@@ -31,10 +34,20 @@ public enum FileSignature {
 
     private final String extension;
     private final String fileSignature;
+
+    /**
+     * 모든 파일의 시그니처 값을 Map에 담아서 변수에 저장
+     */
     private static final Map<String, FileSignature> SIGNATURE_MAP =
             Arrays.stream(FileSignature.values())
                     .collect(Collectors.toMap(FileSignature::getExtension, Function.identity()));
 
+    /**
+     * 매개변수로 받은 확장자에 대한 시그니처 정보가 일치하는지 확인하는 메서드
+     * @param extension
+     * @param signature
+     * @return Boolean
+     */
     public static Boolean isEqualsSignature(String extension, String signature) {
         String fileSignature = SIGNATURE_MAP.get(extension).getFileSignature();
         if (fileSignature.equals(signature)) {
