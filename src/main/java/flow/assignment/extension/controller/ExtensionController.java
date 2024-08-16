@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
+/**
+ * 확장자 관련 Controller
+ * 고정 확장자 차단, 차단 해제, 목록 조회
+ * 커스텀 확장자 추가, 삭제, 목록 조회
+ */
+
 @RestController
 @RequestMapping("/extension")
 @RequiredArgsConstructor
