@@ -19,3 +19,6 @@ spring:
 project:
   upload:
     path: ${FOLDER_PATH}
+
+address:
+  domain: ${DOMAIN_ADDRESS}
