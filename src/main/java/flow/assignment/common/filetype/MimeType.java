@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * MimeTpye 정보를 담은 Enum 클래스
+ */
 @AllArgsConstructor
 @Getter
 public enum MimeType {
@@ -41,10 +44,18 @@ public enum MimeType {
     private final String mimeType;
     private final String extension;
 
+    /**
+     * 모든 MimeType 값을 Map에 담아서 변수에 저장
+     */
     public static final Map<String, MimeType> MIME_TYPE_MAP =
             Arrays.stream(MimeType.values())
                     .collect(Collectors.toMap(MimeType::getExtension, Function.identity()));
 
+    /**
+     * 매개변수로 받은 MimeType이 Enum 클래스에 있는지 확인하는 메서드
+     * @param mimeType
+     * @return String
+     */
     public static String isValidMimeType(String mimeType) {
         MimeType resultMimeType = MIME_TYPE_MAP.get(mimeType);
         if (resultMimeType != null) {
