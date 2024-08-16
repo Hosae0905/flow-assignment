@@ -7,6 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 파일 관련 Controller
+ * 파일 업로드
+ */
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
