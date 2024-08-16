@@ -31,11 +31,15 @@ public class ExtensionHandlerInterceptor implements HandlerInterceptor {
             for (Part part : result) {
                 String contentType = part.getContentType();
                 String extension = mimeTypeFilter(contentType);
-                String fileSignature = convertByteToSignature(part.getInputStream());
-                if (fileSignatureFilter(extension, fileSignature)) {
+                if (isGeneralFile(extension)) {
                     return extensionFilter(extension);
                 } else {
-                    return false;
+                    String fileSignature = convertByteToSignature(part.getInputStream());
+                    if (fileSignatureFilter(extension, fileSignature)) {
+                        return extensionFilter(extension);
+                    } else {
+                        return false;
+                    }
                 }
             }
         } catch (IOException e) {
@@ -70,6 +74,15 @@ public class ExtensionHandlerInterceptor implements HandlerInterceptor {
     private Boolean fileSignatureFilter(String extension, String fileSignature) {
         Boolean signature = FileSignature.isEqualsSignature(extension, fileSignature);
         if (signature == null || !signature) {
+            throw new InterceptorException(ErrorCode.INVALID_FILE_SIGNATURE, "유효하지 않은 파일입니다.");
+        } else {
+            return true;
+        }
+    }
+
+    private Boolean isGeneralFile(String extension) {
+        Boolean generalFile = GeneralFile.isEqualsGeneralFile(extension);
+        if (generalFile == null) {
             throw new InterceptorException(ErrorCode.INVALID_FILE_SIGNATURE, "유효하지 않은 파일입니다.");
         } else {
             return true;
