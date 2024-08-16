@@ -18,12 +18,23 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 확장자 관련 Service
+ * 고정 확장자 차단, 차단 해제, 목록 조회
+ * 커스텀 확장자 추가, 삭제, 목록 조회
+ */
+
 @Service
 @RequiredArgsConstructor
 public class ExtensionService {
 
     private final ExtensionRepository extensionRepository;
 
+    /**
+     * 고정 확장자를 차단하는 메서드
+     * @param postExtensionCheckedReq
+     * @return BaseResponse<String>
+     */
     @Transactional
     public BaseResponse<String> restrictExtension(PostExtensionCheckedReq postExtensionCheckedReq) {
         if (postExtensionCheckedReq.getOption().equals("default")) {
@@ -38,6 +49,11 @@ public class ExtensionService {
         }
     }
 
+    /**
+     * 고정 확장자 차단을 해제하는 메서드
+     * @param postExtensionUnCheckedReq
+     * @return BaseResponse<String>
+     */
     @Transactional
     public BaseResponse<String> openExtension(PostExtensionUnCheckedReq postExtensionUnCheckedReq) {
         if (postExtensionUnCheckedReq.getOption().equals("default")) {
@@ -51,6 +67,11 @@ public class ExtensionService {
         }
     }
 
+    /**
+     * 고정 확장자 목록을 불러오는 메서드
+     * @param option
+     * @return BaseResponse<ArrayList<GetExtensionListRes>>
+     */
     public BaseResponse<ArrayList<GetExtensionListRes>> getDefaultExtensionList(String option) {
         if (option.equals("default")) {
             List<Extension> extensions = extensionRepository.findAllByOption(option);
@@ -65,6 +86,11 @@ public class ExtensionService {
         }
     }
 
+    /**
+     * 커스텀 확장자를 추가하는 메서드
+     * @param postAddExtensionReq
+     * @return BaseResponse<String>
+     */
     @Transactional
     public BaseResponse<String> addCustomExtension(PostAddExtensionReq postAddExtensionReq) {
         if (postAddExtensionReq.getOption().equals("custom")) {
@@ -79,6 +105,11 @@ public class ExtensionService {
         }
     }
 
+    /**
+     * 커스텀 확장자 목록을 불러오는 메서드
+     * @param option
+     * @return BaseResponse<ArrayList<GetCustomExtensionListRes>>
+     */
     public BaseResponse<ArrayList<GetCustomExtensionListRes>> getCustomExtensionList(String option) {
         if (option.equals("custom")) {
             List<Extension> customExtensions = extensionRepository.findAllByOption(option);
@@ -94,8 +125,13 @@ public class ExtensionService {
         }
     }
 
+    /**
+     * 커스텀 확장자를 삭제하는 메서드
+     * @param deleteCustomExtensionReq
+     * @return BaseResponse<String>
+     */
     @Transactional
-    public Object removeCustomExtension(DeleteCustomExtensionReq deleteCustomExtensionReq) {
+    public BaseResponse<String> removeCustomExtension(DeleteCustomExtensionReq deleteCustomExtensionReq) {
         if (deleteCustomExtensionReq.getOption().equals("custom")) {
             Extension extension = extensionRepository.findByExtension(deleteCustomExtensionReq.getExtension()).orElseThrow(() ->
                     new ExtensionException(ErrorCode.NOT_FOUND_EXTENSION, "존재하지 않는 확장자입니다."));
