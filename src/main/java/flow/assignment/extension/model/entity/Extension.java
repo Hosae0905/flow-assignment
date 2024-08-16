@@ -1,4 +1,4 @@
-package flow.assignment.file.model.entity;
+package flow.assignment.extension.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
