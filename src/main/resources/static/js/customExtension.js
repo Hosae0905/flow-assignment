@@ -66,6 +66,14 @@ $(function getCustomExtensionList () {
             alert('커스텀 확장자는 최대 200개까지만 가능합니다.')
             return;
         }
+
+        let regResult = new RegExp('^[a-z]+$').test(data)
+        if (!regResult) {
+            alert('확장자는 영어 소문자로만 작성해주세요.')
+            $('#extensionInput').val('')
+            return;
+        }
+
         if (data.length <= 20) {
             let formData = {
                 extension : data,
