@@ -7,12 +7,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 파일 관련 Service
+ * 파일 업로드
+ */
 @Service
 @RequiredArgsConstructor
 public class FileService {
     private final UploadFileRepository fileRepository;
     private final FileUploadService fileUploadService;
 
+    /**
+     * 업로드한 파일 정보를 DB에 저장하는 메서드
+     * @param file
+     * @return BaseResponse<String>
+     */
     public BaseResponse<String> uploadFile(MultipartFile file) {
         String uploadFileInfo = fileUploadService.uploadFile(file);
         String extension = uploadFileInfo.substring(uploadFileInfo.lastIndexOf('.') + 1);
