@@ -1,0 +1,39 @@
+.user-h1-style {
+    font-size: 30px;
+    text-align: center;
+}
+
+.user-hr-style {
+    border: 1px solid black;
+}
+
+.description-span-style {
+    font-size: 30px;
+}
+
+.user-file-upload-form {
+    display: block;
+    text-align: center;
+}
+
+.user-file-upload-input {
+    font-size: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.user-file-upload-btn {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #d4d3d3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.user-file-upload-btn:hover {
+    background-color: #898585;
+}
+

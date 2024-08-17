@@ -1,0 +1,99 @@
+.admin-h1-style {
+    font-size: 30px;
+    text-align: center;
+}
+
+.admin-hr-style {
+    border: 1px solid black;
+}
+
+.file-type-checkbox-list {
+    padding: 20px;
+}
+
+.default-type-style {
+    padding-right: 50px;
+}
+
+.custom-type-style {
+    padding-left: 20px;
+    padding-right: 40px;
+}
+
+.input-extension-style {
+    padding-right: 60px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 4px;
+}
+
+.extension-tag-input {
+    margin-left: 165px;
+}
+
+.remove-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.custom-extension-item {
+    display: inline-block;
+    margin: 7px;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 6px;
+    text-align: center;
+    cursor: default;
+
+}
+
+.admin-a-style {
+    display: block;
+    font-size: 20px;
+    text-align: center;
+}
+
+.extension-add-btn {
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    background-color: #b0aeae;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.extension-add-btn:hover {
+    background-color: #898585;
+}
+
+.input-extension-style::placeholder {
+    text-align: left;
+}
+
+.custom-extension-box {
+    border: 1px solid;
+    border-radius: 5px;
+    width: 400px;
+    height: 200px;
+    position: relative;
+    left: 165px;
+    overflow-y: auto;
+    max-height: 1000px;
+}
+
+.custom-extension-box-text {
+    display: block;
+    padding-left: 5px;
+    padding-top: 3px;
+    font-weight: bold;
+    font-size: 13px;
+
+}
+
+.custom-extension-input {
+    padding-bottom: 5px;
+}
+
