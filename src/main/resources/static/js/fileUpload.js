@@ -13,12 +13,15 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                if (response === false) {
-                    alert('현재 확장자의 파일은 업로드할 수 없습니다. 다른 파일로 시도해주세요')
+                if (response.code === 'UPLOAD_001') {
+                    alert(response.message)
                 }
             },
             error: function (error) {
-                console.log(error)
+                if (error.responseJSON.code === 'EXTENSION_ERROR_004' || error.responseJSON.code === 'MIMETYPE_ERROR_001'
+                || error.responseJSON.code === 'SIGNATURE_ERROR_001') {
+                    alert(error.responseJSON.code)
+                }
             }
         })
     })
