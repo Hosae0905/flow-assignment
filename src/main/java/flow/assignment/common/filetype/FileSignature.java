@@ -139,6 +139,7 @@ public enum FileSignature {
 
     SIT("sit", "5374"),
     SYS("sys", "4d5a"),
+    SH("sh", "2321"),
 
     TAR("tar", "7573"),
     TGZ("tgz", "1f8b"),
