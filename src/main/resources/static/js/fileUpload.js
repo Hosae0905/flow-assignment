@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function uploadFile () {
     $('#uploadButton').click(function () {
         let file = $('#fileInput')[0]
 
