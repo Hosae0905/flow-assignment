@@ -77,7 +77,6 @@ public enum MimeType {
     APPLICATION_ARC("application/x-freearc", "arc"),
     APPLICATION_SH("application/x-sh", "sh"),
     APPLICATION_TAR("application/x-tar", "tar"),
-    APPLICATION_URL_ENCODED("application/x-www-form-urlencoded", ""),
     APPLICATION_CDA("application/x-cdf", "cda"),
     APPLICATION_JAR("application/java-archive", "jar"),
     APPLICATION_EBOOK("application/vnd.amazon.ebook", "azw"),
