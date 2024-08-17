@@ -3,7 +3,7 @@ function loadCustomExtensionList() {
     let option = 'custom'
     $.ajax({
         type: 'GET',
-        url: `http://localhost:8080/file/custom/extension/list?option=${option}`,
+        url: `http://localhost:8080/extension/custom/list?option=${option}`,
         success: function (response) {
             if (response.code === 'CUSTOM_002') {
                 let customExtensionList = $('#customExtensionList')
@@ -50,7 +50,7 @@ $(function getCustomExtensionList () {
         let data = $('#extensionInput').val()
         $.ajax({
             type: 'GET',
-            url: `http://localhost:8080/file/custom/extension/list?option=${option}`,
+            url: `http://localhost:8080/extension/custom/list?option=${option}`,
             success: function (response) {
                 currentCount = response.result.length
             },
@@ -81,7 +81,7 @@ $(function getCustomExtensionList () {
             };
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/file/extension/add',
+                url: 'http://localhost:8080/extension/custom/add',
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
@@ -116,7 +116,7 @@ $(document).on('click', 'button[name="removeExtensionBtn"]', function delCustomE
 
     $.ajax({
         type: 'DELETE',
-        url: 'http://localhost:8080/file/custom/extension/remove',
+        url: 'http://localhost:8080/extension/custom/remove',
         data: JSON.stringify(formData),
         contentType: 'application/json',
         success: function (response) {

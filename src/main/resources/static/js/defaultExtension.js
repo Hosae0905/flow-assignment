@@ -2,7 +2,7 @@ $(function getDefaultExtension () {
     let option = 'default'
     $.ajax({
         type: 'GET',
-        url: `http://localhost:8080/file/extension/list?option=${option}`,
+        url: `http://localhost:8080/extension/list?option=${option}`,
         success: function (response) {
             if (response.code === 'EXTENSION_003') {
                 let extensionList = $('#extensionList');
@@ -37,7 +37,7 @@ $(function () {
         if (this.checked) {
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/file/extension/checked',
+                url: 'http://localhost:8080/extension/checked',
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
@@ -56,7 +56,7 @@ $(function () {
         } else {
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/file/extension/unchecked',
+                url: 'http://localhost:8080/extension/unchecked',
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
